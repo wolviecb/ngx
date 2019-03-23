@@ -1,6 +1,6 @@
 FROM alpine:3.9
 
-LABEL maintainer="Thomas Andrade <wolvie@gmail.coma>"
+LABEL maintainer="Thomas Andrade <wolvie@gmail.com>"
 
 ENV NGINX_VERSION="1.15.9" \
 		MORE_SET_HEADER_VERSION="0.33" \
