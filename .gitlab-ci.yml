@@ -1,10 +1,6 @@
 stages:
   - build
   - test
-  - deploy
-  - release
-variables:
-  DOCKER_TAG: $CI_COMMIT_TAG
 build:
   stage: build
   script:
@@ -13,21 +9,3 @@ test:
   stage: test
   script:
     - docker run ngx-build nginx -V
-    - docker tag ngx-build tandrade/ngx:latest
-deploy:
-  before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
-  stage: deploy
-  script:
-    - docker push tandrade/ngx:latest
-  only:
-    - master
-release:
-  before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
-  stage: release
-  script:
-    - docker tag ngx-build tandrade/ngx:$DOCKER_TAG
-    - docker push tandrade/ngx:$DOCKER_TAG
-  only:
-    - tags
