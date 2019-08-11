@@ -62,3 +62,16 @@ Usage
 -----
 
 Usage should follow the same lines as the default nginx image, you can check it [here](https://hub.docker.com/_/nginx/)
+
+ModSecurity
+-----------
+
+There's also the -modsec tags that are built with Modsecurity and with the OWASP CRS ruleset, to enable this feature on your vhost add something like:
+
+```conf
+server {
+    # ...
+    modsecurity on;
+    modsecurity_rules_file /etc/nginx/modsec/main.conf;
+}
+```
