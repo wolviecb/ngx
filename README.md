@@ -53,8 +53,8 @@ Compilation Flags
   --with-compat \
   --with-file-aio \
   --with-http_v2_module \
-  --add-module=/tmp/headers-more-nginx-module-${MORE_SET_HEADER_VERSION} \
-  --add-module=/tmp/ngx_metrics-${HTTP_METRICS_MODULE_VERSION} \
+  --add-module=external_module/headers-more-nginx-module-${MORE_SET_HEADER_VERSION} \
+  --add-module=external_module/ngx_metrics-${HTTP_METRICS_MODULE_VERSION} \
 ```
 
 Usage
