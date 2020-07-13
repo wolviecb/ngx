@@ -1,7 +1,7 @@
 NGX - NGinx docker image
 ==============================
 
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://git.thebarrens.nu/wolvie/ngx/blob/master/LICENSE) [!["Get your own image badge on microbadger.com"](https://images.microbadger.com/badges/image/tandrade/ngx.svg)](https://microbadger.com/images/tandrade/ngx) [!["Get your own image badge on microbadger.com"](https://images.microbadger.com/badges/image/tandrade/ngx:latest-modsec.svg)](https://microbadger.com/images/tandrade/ngx:latest-modsec)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://git.thebarrens.nu/wolvie/ngx/blob/master/LICENSE)
 
 NGInx docker image with some extra packages included, based on the official [NGInx](https://github.com/nginxinc/docker-nginx) docker images
 
