@@ -2,7 +2,7 @@ FROM alpine:3.9
 
 LABEL maintainer="Thomas Andrade <wolvie@gmail.com>"
 
-ENV NGINX_VERSION="1.17.9" \
+ENV NGINX_VERSION="1.19.1" \
 		MORE_SET_HEADER_VERSION="0.33" \
 		HTTP_METRICS_MODULE_VERSION="0.1.1"
 
