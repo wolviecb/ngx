@@ -88,11 +88,11 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 		geoip-dev \
 		yajl-dev \
 		git \
-	&& curl -fSL https://github.com/openresty/headers-more-nginx-module/archive/v${MORE_SET_HEADER_VERSION}.tar.gz -o /tmp/$MORE_SET_HEADER_VERSION.tar.gz \
-	&& curl -fSL https://github.com/madvertise/ngx_metrics/archive/v${HTTP_METRICS_MODULE_VERSION}.tar.gz -o /tmp/${HTTP_METRICS_MODULE_VERSION}.tar.gz \
-	&& curl -fSL https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz -o nginx.tar.gz \
-	&& curl -fSL https://github.com/SpiderLabs/owasp-modsecurity-crs/archive/v${OWASP_CRS_VERSION}.tar.gz -o /tmp/${OWASP_CRS_VERSION}.tar.gz \
-	&& curl -fSL https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz.asc  -o nginx.tar.gz.asc \
+	&& curl -sfSL https://github.com/openresty/headers-more-nginx-module/archive/v${MORE_SET_HEADER_VERSION}.tar.gz -o /tmp/$MORE_SET_HEADER_VERSION.tar.gz \
+	--next -sfSL https://github.com/liquidm/ngx_metrics/archive/v${HTTP_METRICS_MODULE_VERSION}.tar.gz -o /tmp/${HTTP_METRICS_MODULE_VERSION}.tar.gz \
+	--next -sfSL https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz -o nginx.tar.gz \
+	--next -sfSL https://github.com/SpiderLabs/owasp-modsecurity-crs/archive/v${OWASP_CRS_VERSION}.tar.gz -o /tmp/${OWASP_CRS_VERSION}.tar.gz \
+	--next -sfSL https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz.asc  -o nginx.tar.gz.asc \
 	&& export GNUPGHOME="$(mktemp -d)" \
 	&& found=''; \
 	for server in \
@@ -140,9 +140,9 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 	&& strip --strip-unneeded /usr/lib/libmodsecurity.so.* \
 	&& mkdir /etc/nginx/modsec \
 	&& curl -o /etc/nginx/modsec/modsecurity.conf \
-	https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended \
-	&& curl -o /etc/nginx/modsec/unicode.mapping \
-	https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/unicode.mapping \
+	-sfSL https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/modsecurity.conf-recommended \
+	--next -o /etc/nginx/modsec/unicode.mapping \
+	-sfSL https://raw.githubusercontent.com/SpiderLabs/ModSecurity/v3/master/unicode.mapping \
 	&& sed -i 's/SecRuleEngine DetectionOnly/SecRuleEngine On/' /etc/nginx/modsec/modsecurity.conf \
 	&& tar zxvf /tmp/${OWASP_CRS_VERSION}.tar.gz -C /usr/local/ \
 	&& rm /tmp/${OWASP_CRS_VERSION}.tar.gz \
