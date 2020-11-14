@@ -73,10 +73,10 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 		gd-dev \
 		geoip-dev \
 		yajl-dev \
-	&& curl -fSL https://github.com/openresty/headers-more-nginx-module/archive/v${MORE_SET_HEADER_VERSION}.tar.gz -o /tmp/$MORE_SET_HEADER_VERSION.tar.gz \
-	&& curl -fSL https://github.com/madvertise/ngx_metrics/archive/v${HTTP_METRICS_MODULE_VERSION}.tar.gz -o /tmp/${HTTP_METRICS_MODULE_VERSION}.tar.gz \
-	&& curl -fSL https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz -o nginx.tar.gz \
-	&& curl -fSL https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz.asc  -o nginx.tar.gz.asc \
+	&& curl -sfSL https://github.com/openresty/headers-more-nginx-module/archive/v${MORE_SET_HEADER_VERSION}.tar.gz -o /tmp/$MORE_SET_HEADER_VERSION.tar.gz \
+	--next -sfSL https://github.com/liquidm/ngx_metrics/archive/v${HTTP_METRICS_MODULE_VERSION}.tar.gz -o /tmp/${HTTP_METRICS_MODULE_VERSION}.tar.gz \
+	--next -sfSL https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz -o nginx.tar.gz \
+	--next -sfSL https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz.asc  -o nginx.tar.gz.asc \
 	&& export GNUPGHOME="$(mktemp -d)" \
 	&& found=''; \
 	for server in \
