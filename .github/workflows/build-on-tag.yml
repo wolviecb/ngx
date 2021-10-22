@@ -10,5 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Build the Docker image
+    - name: Build
       run: docker build . -t tandrade/ngx:${GITHUB_REF/refs\/tags\//}
+    - name: Login
+      uses: docker/login-action@v1.10.0
+      with:
+          username: tandrade
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+    - name: Push
+      run: docker push tandrade/ngx:${GITHUB_REF/refs\/tags\//}
