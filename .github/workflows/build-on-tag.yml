@@ -1,0 +1,14 @@
+name: Build tag
+
+on:
+  create:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build the Docker image
+      run: docker build . --t tandrade/ngx:${GITHUB_REF/refs\/tags\//}

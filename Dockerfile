@@ -5,11 +5,7 @@ LABEL maintainer="Thomas Andrade <wolvie@gmail.com>"
 ENV NGINX_VERSION="1.20.1" \
 		MORE_SET_HEADER_VERSION="0.33" \
 		HTTP_METRICS_MODULE_VERSION="0.1.1" \
-		PROXY_CONNECT_VERSION="0.0.2" \
-		HTTP_PROXY="http://138.106.57.2:8080" \
-		HTTPS_PROXY="http://138.106.57.2:8080" \
-		http_proxy="http://138.106.57.2:8080" \
-		https_proxy="http://138.106.57.2:8080"
+		PROXY_CONNECT_VERSION="0.0.2"
 
 COPY nginx.conf nginx.vh.default.conf /tmp/
 
