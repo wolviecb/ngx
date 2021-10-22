@@ -9,11 +9,12 @@ ENV NGINX_VERSION="1.20.1" \
 		MODSEC="https://github.com/SpiderLabs/ModSecurity" \
 		MODDEST="/usr/src/modsecurity" \
 		MODSEC_CONN="https://github.com/SpiderLabs/ModSecurity-nginx.git" \
-		MODCONNDEST="external_module/modsecurity-nginx"
+		MODCONNDEST="external_module/modsecurity-nginx" \
+		PROXY_CONNECT_VERSION="0.0.2"
 
 COPY nginx.conf nginx.vh.default.conf /tmp/
 
-RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
+RUN GPG_KEYS="B0F4253373F8F6F510D42178520A9993A1C052F8" \
 	&& CONFIG="\
 		--prefix=/etc/nginx \
 		--sbin-path=/usr/sbin/nginx \
@@ -62,6 +63,7 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 		--add-module=external_module/headers-more-nginx-module-${MORE_SET_HEADER_VERSION} \
 		--add-module=external_module/ngx_metrics-${HTTP_METRICS_MODULE_VERSION} \
 		--add-module=external_module/modsecurity-nginx \
+		--add-module=external_module/ngx_http_proxy_connect_module-${PROXY_CONNECT_VERSION} \
 	" \
 	&& addgroup -S nginx \
 	&& adduser -D -S -h /var/cache/nginx -s /sbin/nologin -G nginx nginx \
@@ -88,16 +90,18 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 		geoip-dev \
 		yajl-dev \
 		git \
+		patch \
 	&& curl -sfSL https://github.com/openresty/headers-more-nginx-module/archive/v${MORE_SET_HEADER_VERSION}.tar.gz -o /tmp/$MORE_SET_HEADER_VERSION.tar.gz \
 	--next -sfSL https://github.com/liquidm/ngx_metrics/archive/v${HTTP_METRICS_MODULE_VERSION}.tar.gz -o /tmp/${HTTP_METRICS_MODULE_VERSION}.tar.gz \
+	--next -sfSL https://github.com/chobits/ngx_http_proxy_connect_module/archive/refs/tags/v${PROXY_CONNECT_VERSION}.tar.gz -o /tmp/${PROXY_CONNECT_VERSION}.tar.gz \
 	--next -sfSL https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz -o nginx.tar.gz \
 	--next -sfSL https://github.com/SpiderLabs/owasp-modsecurity-crs/archive/v${OWASP_CRS_VERSION}.tar.gz -o /tmp/${OWASP_CRS_VERSION}.tar.gz \
 	--next -sfSL https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz.asc  -o nginx.tar.gz.asc \
 	&& export GNUPGHOME="$(mktemp -d)" \
 	&& found=''; \
 	for server in \
-		ha.pool.sks-keyservers.net \
 		hkp://keyserver.ubuntu.com:80 \
+		ha.pool.sks-keyservers.net \
 		hkp://p80.pool.sks-keyservers.net:80 \
 		pgp.mit.edu \
 	; do \
@@ -126,6 +130,9 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 	&& tar xvf /tmp/${HTTP_METRICS_MODULE_VERSION}.tar.gz -C external_module \
 	&& rm /tmp/${HTTP_METRICS_MODULE_VERSION}.tar.gz \
 	&& git clone --depth 1 "$MODSEC_CONN" "$MODCONNDEST" \
+	&& tar xvf /tmp/${PROXY_CONNECT_VERSION}.tar.gz -C external_module \
+	&& rm /tmp/${PROXY_CONNECT_VERSION}.tar.gz \
+	&& patch -d /usr/src/nginx-$NGINX_VERSION -p 1 < /usr/src/nginx-$NGINX_VERSION/external_module/ngx_http_proxy_connect_module-${PROXY_CONNECT_VERSION}/patch/proxy_connect_rewrite_1018.patch \
 	&& ./configure $CONFIG \
 	&& make -j$(getconf _NPROCESSORS_ONLN) \
 	&& make install \
