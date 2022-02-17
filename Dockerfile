@@ -1,11 +1,11 @@
-FROM alpine:3.14
+FROM alpine:3.15
 
 LABEL maintainer="Thomas Andrade <wolvie@gmail.com>"
 
-ENV NGINX_VERSION="1.20.1" \
+ENV NGINX_VERSION="1.21.6" \
 		MORE_SET_HEADER_VERSION="0.33" \
 		HTTP_METRICS_MODULE_VERSION="0.1.1" \
-		PROXY_CONNECT_VERSION="0.0.2"
+		PROXY_CONNECT_VERSION="master"
 
 COPY nginx.conf nginx.vh.default.conf /tmp/
 
@@ -62,11 +62,9 @@ RUN GPG_KEYS="B0F4253373F8F6F510D42178520A9993A1C052F8" \
 	&& addgroup -S nginx \
 	&& adduser -D -S -h /var/cache/nginx -s /sbin/nologin -G nginx nginx \
 	&& apk add --no-cache --virtual .build-deps \
-		gcc \
-		libc-dev \
-		make \
+		build-base \
 		openssl-dev \
-		pcre-dev \
+		pcre2-dev \
 		zlib-dev \
 		linux-headers \
 		curl \
@@ -75,10 +73,9 @@ RUN GPG_KEYS="B0F4253373F8F6F510D42178520A9993A1C052F8" \
 		gd-dev \
 		geoip-dev \
 		yajl-dev \
-		patch \
 	&& curl -sfSL https://github.com/openresty/headers-more-nginx-module/archive/v${MORE_SET_HEADER_VERSION}.tar.gz -o /tmp/${MORE_SET_HEADER_VERSION}.tar.gz \
 	--next -sfSL https://github.com/liquidm/ngx_metrics/archive/v${HTTP_METRICS_MODULE_VERSION}.tar.gz -o /tmp/${HTTP_METRICS_MODULE_VERSION}.tar.gz \
-	--next -sfSL https://github.com/chobits/ngx_http_proxy_connect_module/archive/refs/tags/v${PROXY_CONNECT_VERSION}.tar.gz -o /tmp/${PROXY_CONNECT_VERSION}.tar.gz \
+	--next -sfSL https://github.com/chobits/ngx_http_proxy_connect_module/tarball/master -o /tmp/${PROXY_CONNECT_VERSION}.tar.gz \
 	--next -sfSL https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz -o nginx.tar.gz \
 	--next -sfSL https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz.asc  -o nginx.tar.gz.asc \
 	&& export GNUPGHOME="$(mktemp -d)" \
@@ -104,9 +101,10 @@ RUN GPG_KEYS="B0F4253373F8F6F510D42178520A9993A1C052F8" \
 	&& rm /tmp/$MORE_SET_HEADER_VERSION.tar.gz \
 	&& tar xvf /tmp/${HTTP_METRICS_MODULE_VERSION}.tar.gz -C external_module \
 	&& rm /tmp/${HTTP_METRICS_MODULE_VERSION}.tar.gz \
-	&& tar xvf /tmp/${PROXY_CONNECT_VERSION}.tar.gz -C external_module \
+	&& mkdir external_module/ngx_http_proxy_connect_module-${PROXY_CONNECT_VERSION} \
+	&& tar xvf /tmp/${PROXY_CONNECT_VERSION}.tar.gz -C external_module/ngx_http_proxy_connect_module-${PROXY_CONNECT_VERSION} --strip-components 1 \
 	&& rm /tmp/${PROXY_CONNECT_VERSION}.tar.gz \
-	&& patch -d /usr/src/nginx-$NGINX_VERSION -p 1 < /usr/src/nginx-$NGINX_VERSION/external_module/ngx_http_proxy_connect_module-${PROXY_CONNECT_VERSION}/patch/proxy_connect_rewrite_1018.patch \
+	&& patch -d /usr/src/nginx-$NGINX_VERSION -p 1 < /usr/src/nginx-$NGINX_VERSION/external_module/ngx_http_proxy_connect_module-${PROXY_CONNECT_VERSION}/patch/proxy_connect_rewrite_102101.patch \
 	&& ./configure $CONFIG \
 	&& make -j$(getconf _NPROCESSORS_ONLN) \
 	&& make install \
