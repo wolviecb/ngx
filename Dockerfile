@@ -14,7 +14,7 @@ ENV NGINX_VERSION="1.22.0" \
 
 COPY nginx.conf nginx.vh.default.conf /tmp/
 
-RUN GPG_KEYS="B0F4253373F8F6F510D42178520A9993A1C052F8" \
+RUN GPG_KEYS="13C82A63B603576156E30A4EA0EA981B66B0D967" \
 	&& CONFIG="\
 		--prefix=/etc/nginx \
 		--sbin-path=/usr/sbin/nginx \
