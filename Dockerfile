@@ -2,8 +2,8 @@ FROM alpine:3.16
 
 LABEL maintainer="Thomas Andrade <wolvie@gmail.com>"
 
-ENV NGINX_VERSION="1.22.0" \
-		MORE_SET_HEADER_VERSION="0.33" \
+ENV NGINX_VERSION="1.23.1" \
+		MORE_SET_HEADER_VERSION="0.34" \
 		HTTP_METRICS_MODULE_VERSION="0.1.1" \
 		OWASP_CRS_VERSION="3.1.1" \
 		MODSEC="https://github.com/SpiderLabs/ModSecurity" \
