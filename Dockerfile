@@ -2,7 +2,7 @@ FROM alpine:3.16
 
 LABEL maintainer="Thomas Andrade <wolvie@gmail.com>"
 
-ENV NGINX_VERSION="1.23.1" \
+ENV NGINX_VERSION="1.23.2" \
 		MORE_SET_HEADER_VERSION="0.34" \
 		HTTP_METRICS_MODULE_VERSION="0.1.1" \
 		PROXY_CONNECT_VERSION="master"
