@@ -16,75 +16,75 @@ COPY nginx.conf nginx.vh.default.conf /tmp/
 
 RUN GPG_KEYS="43387825DDB1BB97EC36BA5D007C8D7C15D87369" \
 	&& CONFIG="\
-		--prefix=/etc/nginx \
-		--sbin-path=/usr/sbin/nginx \
-		--modules-path=/usr/lib/nginx/modules \
-		--conf-path=/etc/nginx/nginx.conf \
-		--error-log-path=/var/log/nginx/error.log \
-		--http-log-path=/var/log/nginx/access.log \
-		--pid-path=/var/run/nginx.pid \
-		--lock-path=/var/run/nginx.lock \
-		--http-client-body-temp-path=/var/cache/nginx/client_temp \
-		--http-proxy-temp-path=/var/cache/nginx/proxy_temp \
-		--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
-		--http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp \
-		--http-scgi-temp-path=/var/cache/nginx/scgi_temp \
-		--user=nginx \
-		--group=nginx \
-		--with-http_ssl_module \
-		--with-http_realip_module \
-		--with-http_addition_module \
-		--with-http_sub_module \
-		--with-http_dav_module \
-		--with-http_flv_module \
-		--with-http_mp4_module \
-		--with-http_gunzip_module \
-		--with-http_gzip_static_module \
-		--with-http_random_index_module \
-		--with-http_secure_link_module \
-		--with-http_stub_status_module \
-		--with-http_auth_request_module \
-		--with-http_xslt_module=dynamic \
-		--with-http_image_filter_module=dynamic \
-		--with-http_geoip_module=dynamic \
-		--with-pcre \
-		--with-threads \
-		--with-stream \
-		--with-stream_ssl_module \
-		--with-stream_ssl_preread_module \
-		--with-stream_realip_module \
-		--with-stream_geoip_module=dynamic \
-		--with-http_slice_module \
-		--with-mail \
-		--with-mail_ssl_module \
-		--with-compat \
-		--with-file-aio \
-		--with-http_v2_module \
-		--add-module=external_module/headers-more-nginx-module-${MORE_SET_HEADER_VERSION} \
-		--add-module=external_module/ngx_metrics-${HTTP_METRICS_MODULE_VERSION} \
-		--add-module=external_module/modsecurity-nginx \
-		--add-module=external_module/ngx_http_proxy_connect_module-${PROXY_CONNECT_VERSION} \
+	--prefix=/etc/nginx \
+	--sbin-path=/usr/sbin/nginx \
+	--modules-path=/usr/lib/nginx/modules \
+	--conf-path=/etc/nginx/nginx.conf \
+	--error-log-path=/var/log/nginx/error.log \
+	--http-log-path=/var/log/nginx/access.log \
+	--pid-path=/var/run/nginx.pid \
+	--lock-path=/var/run/nginx.lock \
+	--http-client-body-temp-path=/var/cache/nginx/client_temp \
+	--http-proxy-temp-path=/var/cache/nginx/proxy_temp \
+	--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
+	--http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp \
+	--http-scgi-temp-path=/var/cache/nginx/scgi_temp \
+	--user=nginx \
+	--group=nginx \
+	--with-http_ssl_module \
+	--with-http_realip_module \
+	--with-http_addition_module \
+	--with-http_sub_module \
+	--with-http_dav_module \
+	--with-http_flv_module \
+	--with-http_mp4_module \
+	--with-http_gunzip_module \
+	--with-http_gzip_static_module \
+	--with-http_random_index_module \
+	--with-http_secure_link_module \
+	--with-http_stub_status_module \
+	--with-http_auth_request_module \
+	--with-http_xslt_module=dynamic \
+	--with-http_image_filter_module=dynamic \
+	--with-http_geoip_module=dynamic \
+	--with-pcre \
+	--with-threads \
+	--with-stream \
+	--with-stream_ssl_module \
+	--with-stream_ssl_preread_module \
+	--with-stream_realip_module \
+	--with-stream_geoip_module=dynamic \
+	--with-http_slice_module \
+	--with-mail \
+	--with-mail_ssl_module \
+	--with-compat \
+	--with-file-aio \
+	--with-http_v2_module \
+	--add-module=external_module/headers-more-nginx-module-${MORE_SET_HEADER_VERSION} \
+	--add-module=external_module/ngx_metrics-${HTTP_METRICS_MODULE_VERSION} \
+	--add-module=external_module/modsecurity-nginx \
+	--add-module=external_module/ngx_http_proxy_connect_module-${PROXY_CONNECT_VERSION} \
 	" \
 	&& addgroup -S nginx \
 	&& adduser -D -S -h /var/cache/nginx -s /sbin/nologin -G nginx nginx \
 	&& apk add --no-cache --virtual .build-deps \
-		build-base \
-		automake \
-		autoconf \
-		openssl-dev \
-		pcre-dev \
-		zlib-dev \
-		libtool \
-		linux-headers \
-		curl \
-		libcurl \
-		gnupg \
-		libxslt-dev \
-		gd-dev \
-		geoip-dev \
-		yajl-dev \
-		git \
-		patch \
+	build-base \
+	automake \
+	autoconf \
+	openssl-dev \
+	pcre-dev \
+	zlib-dev \
+	libtool \
+	linux-headers \
+	curl \
+	libcurl \
+	gnupg \
+	libxslt-dev \
+	gd-dev \
+	geoip-dev \
+	yajl-dev \
+	git \
+	patch \
 	&& curl -sfSL https://github.com/openresty/headers-more-nginx-module/archive/v${MORE_SET_HEADER_VERSION}.tar.gz -o /tmp/$MORE_SET_HEADER_VERSION.tar.gz \
 	--next -sfSL https://github.com/liquidm/ngx_metrics/archive/v${HTTP_METRICS_MODULE_VERSION}.tar.gz -o /tmp/${HTTP_METRICS_MODULE_VERSION}.tar.gz \
 	--next -sfSL https://github.com/chobits/ngx_http_proxy_connect_module/tarball/master -o /tmp/${PROXY_CONNECT_VERSION}.tar.gz \
@@ -94,13 +94,13 @@ RUN GPG_KEYS="43387825DDB1BB97EC36BA5D007C8D7C15D87369" \
 	&& export GNUPGHOME="$(mktemp -d)" \
 	&& found=''; \
 	for server in \
-		hkp://keyserver.ubuntu.com:80 \
-		ha.pool.sks-keyservers.net \
-		hkp://p80.pool.sks-keyservers.net:80 \
-		pgp.mit.edu \
+	hkp://keyserver.ubuntu.com:80 \
+	ha.pool.sks-keyservers.net \
+	hkp://p80.pool.sks-keyservers.net:80 \
+	pgp.mit.edu \
 	; do \
-		echo "Fetching GPG key $GPG_KEYS from $server"; \
-		gpg --batch --keyserver "$server" --keyserver-options timeout=10 --recv-keys "$GPG_KEYS" && found=yes && break; \
+	echo "Fetching GPG key $GPG_KEYS from $server"; \
+	gpg --batch --keyserver "$server" --keyserver-options timeout=10 --recv-keys "$GPG_KEYS" && found=yes && break; \
 	done; \
 	test -z "$found" && echo >&2 "error: failed to fetch GPG key $GPG_KEYS" && exit 1; \
 	gpg --batch --verify nginx.tar.gz.asc nginx.tar.gz \
@@ -114,7 +114,7 @@ RUN GPG_KEYS="43387825DDB1BB97EC36BA5D007C8D7C15D87369" \
 	&& git submodule update \
 	&& ./build.sh \
 	&& ./configure --prefix=/usr \
-		--sysconfdir=/etc/nginx/modsec/ \
+	--sysconfdir=/etc/nginx/modsec/ \
 	&& make -j$(getconf _NPROCESSORS_ONLN) \
 	&& make install \
 	&& cd /usr/src/nginx-$NGINX_VERSION \
@@ -151,7 +151,7 @@ RUN GPG_KEYS="43387825DDB1BB97EC36BA5D007C8D7C15D87369" \
 	&& tar zxvf /tmp/${OWASP_CRS_VERSION}.tar.gz -C /usr/local/ \
 	&& rm /tmp/${OWASP_CRS_VERSION}.tar.gz \
 	&& mv /usr/local/owasp-modsecurity-crs-${OWASP_CRS_VERSION}/crs-setup.conf.example \
-		/usr/local/owasp-modsecurity-crs-${OWASP_CRS_VERSION}/crs-setup.conf \
+	/usr/local/owasp-modsecurity-crs-${OWASP_CRS_VERSION}/crs-setup.conf \
 	&& echo "Include /etc/nginx/modsec/modsecurity.conf" >/etc/nginx/modsec/main.conf \
 	&& echo "Include /usr/local/owasp-modsecurity-crs-${OWASP_CRS_VERSION}/crs-setup.conf" >>/etc/nginx/modsec/main.conf \
 	&& echo "Include /usr/local/owasp-modsecurity-crs-${OWASP_CRS_VERSION}/rules/*.conf" >>/etc/nginx/modsec/main.conf \
@@ -169,11 +169,11 @@ RUN GPG_KEYS="43387825DDB1BB97EC36BA5D007C8D7C15D87369" \
 	&& mv /usr/bin/envsubst /tmp/ \
 	\
 	&& runDeps="$( \
-		scanelf --needed --nobanner --format '%n#p' /usr/sbin/nginx /usr/lib/nginx/modules/*.so /tmp/envsubst /usr/lib/libmodsecurity.so.* \
-			| tr ',' '\n' \
-			| sort -u \
-			| awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
-			| grep -v libmodsecurity \
+	scanelf --needed --nobanner --format '%n#p' /usr/sbin/nginx /usr/lib/nginx/modules/*.so /tmp/envsubst /usr/lib/libmodsecurity.so.* \
+	| tr ',' '\n' \
+	| sort -u \
+	| awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
+	| grep -v libmodsecurity \
 	)" \
 	&& apk add --no-cache --virtual .nginx-rundeps $runDeps \
 	&& apk del .build-deps \
