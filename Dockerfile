@@ -1,20 +1,20 @@
-FROM alpine:3.16
+FROM alpine:3.19
 
 LABEL maintainer="Thomas Andrade <wolvie@gmail.com>"
 
-ENV NGINX_VERSION="1.23.2" \
-		MORE_SET_HEADER_VERSION="0.34" \
-		HTTP_METRICS_MODULE_VERSION="0.1.1" \
-		OWASP_CRS_VERSION="3.1.1" \
-		MODSEC="https://github.com/SpiderLabs/ModSecurity" \
-		MODDEST="/usr/src/modsecurity" \
-		MODSEC_CONN="https://github.com/SpiderLabs/ModSecurity-nginx.git" \
-		MODCONNDEST="external_module/modsecurity-nginx" \
-		PROXY_CONNECT_VERSION="master"
+ENV NGINX_VERSION="1.25.5" \
+	MORE_SET_HEADER_VERSION="0.34" \
+	HTTP_METRICS_MODULE_VERSION="0.1.1" \
+	OWASP_CRS_VERSION="3.1.1" \
+	MODSEC="https://github.com/SpiderLabs/ModSecurity" \
+	MODDEST="/usr/src/modsecurity" \
+	MODSEC_CONN="https://github.com/SpiderLabs/ModSecurity-nginx.git" \
+	MODCONNDEST="external_module/modsecurity-nginx" \
+	PROXY_CONNECT_VERSION="master"
 
 COPY nginx.conf nginx.vh.default.conf /tmp/
 
-RUN GPG_KEYS="13C82A63B603576156E30A4EA0EA981B66B0D967" \
+RUN GPG_KEYS="43387825DDB1BB97EC36BA5D007C8D7C15D87369" \
 	&& CONFIG="\
 		--prefix=/etc/nginx \
 		--sbin-path=/usr/sbin/nginx \
