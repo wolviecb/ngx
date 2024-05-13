@@ -10,11 +10,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Build
       run: docker build . -t wolviecb/ngx:$(echo $([[ $(git rev-parse --abbrev-ref HEAD) == master ]] && echo latest || echo latest-modsec))
     - name: Login
-      uses: docker/login-action@v1.10.0
+      uses: docker/login-action@v3
       with:
           username: wolviecb
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
